@@ -19,7 +19,18 @@
 // a main() é o ponto de partida, todo código começa por ela
 // % é chamada de máscara
 // é possível passar mais de uma mascara
+// if(condição){bloco de código} | else{bloco de código} | else if(condição) {}. lembra MUITO o do JS
+// 1 é true, 0 é false
+// valores booleanos são guardados em int pois são 0 ou 1
+// escopo é igual ao bloco de código
+// for parece MUITO com o do JS
+// sintaxe de C parece com a de JS
+// tudo que começa com # é chamado de diretiva
+// #define TENTATIVAS, define uma contante, tipo o const do JS
+// continue é tipo um break , porém ele ainda continua executando o resto do loop
+
 #include <stdio.h> // pega da biblioteca stdio.h(le o código)
+#define NUMERO_DE_TENTATIVAS 5
 
 int main(void) {
     int numero_secreto = 42; // numero_secreto foi tipada como int
@@ -29,7 +40,33 @@ int main(void) {
     printf("Bem vindo ao nosso jogo de advinhação!\n"); // printf() é o print de C
     printf("---------------------------------------\n");
     
-    printf("Qual é o seu chute? \n");
-    scanf("%d", &tentativa);
-    printf("Seu chute foi: %d", tentativa);
-}
+    for(int i = 1; i <= NUMERO_DE_TENTATIVAS; i ++){ // fazer um while dps e um contador
+        printf("Tentativa %d de %d\n", i, NUMERO_DE_TENTATIVAS);
+        printf("\nQual é o seu chute? \n");
+        scanf("%d", &tentativa);
+
+        if (tentativa < 0){
+            printf("Você n pode chutar números negativos");
+            i --; // desconsidera a tentativa com número negativo
+
+            continue;
+        }
+        if(tentativa == numero_secreto) {
+            printf("\nParabéns, você acertou(o número era %d)\n", numero_secreto);
+
+            break;
+        } 
+        else {
+            printf("\nVocê errou, o número %d não é o número secreto\n", tentativa);
+
+            if (tentativa < numero_secreto) {
+                printf("\nO número secreto é maior\nTente novamente!\n");
+            } 
+            else {
+                printf("\nO número secreto é menor\nTente novamente!\n");
+                }    
+            }
+        }
+    printf("Fim do jogo!");
+    return 0;
+    }
