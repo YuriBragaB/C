@@ -28,33 +28,61 @@
 // tudo que começa com # é chamado de diretiva
 // #define TENTATIVAS, define uma contante, tipo o const do JS
 // continue é tipo um break , porém ele ainda continua executando o resto do loop
-
+// para declarar um float(decimal) double, double é uma tipagem que suporta as casas decimais, a mascara é %f, tbm possui o float, a mascara é a msm 
+// compilador le da direita para esquerda, quando for fazer opirações com double, transforme o número em um ponto flutuante(.)
+// é possível diminuir a quantidade de casas decimais, por meio da mascara, ex: %.2f(%. casas decimais f)
+// se o C ver que tem um inteiro e um double , a operação é convertida para
+// é possível converter o tipo da variável(casting), é só botar (com o tipo da variável) antes da variável
+// abs() converte para positivo o numero_secreto
 #include <stdio.h> // pega da biblioteca stdio.h(le o código)
-#define NUMERO_DE_TENTATIVAS 5
-
+#include <string.h> // compara str
+#include <stdlib.h> // randomiza o numero_secreto
+#include <time.h>
 int main(void) {
-    int numero_secreto = 42; // numero_secreto foi tipada como int
+    int segundos = time(0);
+    srand(segundos); // pega como semente os segundos, assim sempre acaba gerando um número diferente 
+
+    int numero = rand(); // numero_secreto foi tipada como int, gera um número aleatório pseudo aleatório(rand()), gera um núemro maluco
+    int numero_secreto = numero % 100;
     int tentativa;
 
-    printf("---------------------------------------\n"); // \n é necessário para n concatenar
+    printf("\n---------------------------------------\n"); // \n é necessário para n concatenar
     printf("Bem vindo ao nosso jogo de advinhação!\n"); // printf() é o print de C
     printf("---------------------------------------\n");
+    printf("\nTente advinhar um número de 0 a 99\n");
     
-    for(int i = 1; i <= NUMERO_DE_TENTATIVAS; i ++){ // fazer um while dps e um contador
-        printf("Tentativa %d de %d\n", i, NUMERO_DE_TENTATIVAS);
+    int contador = 0;
+    while(1) { // while True do C
+        contador ++;
+        printf("\nTentativa %d: \n", contador);
         printf("\nQual é o seu chute? \n");
         scanf("%d", &tentativa);
 
         if (tentativa < 0){
             printf("Você n pode chutar números negativos");
-            i --; // desconsidera a tentativa com número negativo
+            contador --; // desconsidera a tentativa com número negativo
 
             continue;
         }
         if(tentativa == numero_secreto) {
-            printf("\nParabéns, você acertou(o número era %d)\n", numero_secreto);
+            char jogar_novamente[4];
+            if (contador == 1){
+                printf("\nParabéns, você acertou de primeira(o número era %d)\n", numero_secreto);
+            }
+            else{
+                printf("\nParabéns, você acertou(o número era %d) na tentiva de número %d\n", numero_secreto, contador);   
+            }
 
-            break;
+            printf("\nvocê deseja jogar novamente:(sim ou nao)\n");
+            scanf("%s", &jogar_novamente);
+
+            if (strcasecmp(jogar_novamente, "sim") == 0) {
+                contador = 0;
+                continue;
+            }
+            else{
+                break;
+            }
         } 
         else {
             printf("\nVocê errou, o número %d não é o número secreto\n", tentativa);
