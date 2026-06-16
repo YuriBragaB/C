@@ -22,6 +22,21 @@
 #include <ctype.h> // tem a função touuper()
 
 
+void abertura() { // void significa vazio
+    printf("\n---------------------------------------\n"); // \n é necessário para n concatenar
+    printf("Bem vindo ao jogo da forca!\n"); // printf() é o print de C
+    printf("---------------------------------------\n");
+
+}
+
+void chuta(int tentativas, char chutes[26]) { // a variável declarada é nova
+        char chute;
+        printf("\nDigite uma letra:\n");
+        scanf(" %c", &chute);
+
+        chutes[tentativas] = chute;
+}
+
 int main() {
     char palavra_secreta[20] = "MELANCIA";
     palavra_secreta[8] = '\0'; // sinaliza o fim da str
@@ -35,7 +50,7 @@ int main() {
     char chutes[26];
     int tentativas = 0;
 
-
+    abertura();
 
     while(!acertou && !enforcou){
 
@@ -61,11 +76,8 @@ int main() {
         }
         printf("\n");
 
-        char chute;
-        printf("Digite uma letra\n");
-        scanf(" %c", &chute);
 
-        chutes[tentativas] = chute;
+        chuta(tentativas, chutes);
         tentativas ++;
     }
 }
