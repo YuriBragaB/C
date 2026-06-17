@@ -16,6 +16,9 @@
 
     //printf("%s", palavra_secreta); // facilita mostrar uma string, impede que faça diversas mascarars para mostrar uma string, com diversos %c
 
+// * é o conteúdo do endereço de memória
+// um array é um ponteiro por natureza, por isso n é necessário passar o *(conteúdo) para a função 
+
 
 #include <stdio.h> // pega algumas funções(printf, scanf, etc...)
 #include <string.h> // pega funções relacionadas as strings
@@ -29,12 +32,15 @@ void abertura() { // void significa vazio
 
 }
 
-void chuta(int tentativas, char chutes[26]) { // a variável declarada é nova
+// é bom as funções terem começo, meio e fim
+// potencializa os benefícios de uma função
+void chuta(int* tentativas, char chutes[26]) { // a variável declarada é nova
         char chute;
         printf("\nDigite uma letra:\n");
-        scanf(" %c", &chute);
+        scanf(" %c", &chute); // passa o endereço da variável chute, por isso utiliza a vaAariável 
 
-        chutes[tentativas] = chute;
+        chutes[(*tentativas)] = chute;
+        (*tentativas) ++;
 }
 
 int main() {
@@ -77,7 +83,6 @@ int main() {
         printf("\n");
 
 
-        chuta(tentativas, chutes);
-        tentativas ++;
+        chuta(&tentativas, chutes);
     }
 }

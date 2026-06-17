@@ -97,4 +97,4 @@ int main(void) {
         }
     printf("Fim do jogo!");
     return 0;
-    }
+}
