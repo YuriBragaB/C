@@ -18,12 +18,18 @@
 
 // * é o conteúdo do endereço de memória
 // um array é um ponteiro por natureza, por isso n é necessário passar o *(conteúdo) para a função 
+// void é uma função sem retorno, se quiser botar um retorno é necessário tipar
 
 
 #include <stdio.h> // pega algumas funções(printf, scanf, etc...)
 #include <string.h> // pega funções relacionadas as strings
 #include <ctype.h> // tem a função touuper()
 
+// variáveis de escopo global
+// tem que utilizar com cuidado
+char palavra_secreta[20];
+char chutes[26];
+int tentativas = 0;
 
 void abertura() { // void significa vazio
     printf("\n---------------------------------------\n"); // \n é necessário para n concatenar
@@ -34,55 +40,58 @@ void abertura() { // void significa vazio
 
 // é bom as funções terem começo, meio e fim
 // potencializa os benefícios de uma função
-void chuta(int* tentativas, char chutes[26]) { // a variável declarada é nova
-        char chute;
-        printf("\nDigite uma letra:\n");
-        scanf(" %c", &chute); // passa o endereço da variável chute, por isso utiliza a vaAariável 
+void chuta() { // a variável declarada é nova
+    char chute;
+    printf("\nDigite uma letra:\n");
+    scanf(" %c", &chute); // passa o endereço da variável chute, por isso utiliza a vaAariável 
 
-        chutes[(*tentativas)] = chute;
-        (*tentativas) ++;
+    chutes[(tentativas)] = chute;
+    (tentativas) ++;
 }
 
-int main() {
-    char palavra_secreta[20] = "MELANCIA";
-    palavra_secreta[8] = '\0'; // sinaliza o fim da str
-    char forca[strlen(palavra_secreta) + 1];
-    forca[strlen(palavra_secreta)] = '\0'; // sinaliza o fim da str
+int ja_chutou(char letra){
+    int achou = 0; // ótima saida, é bom ter isso em mente, criar variáveis para sair de situações difíceis
 
+    for(int j = 0; j < tentativas; j++) { // é declarado como j, pois já existe o i
+        if(toupper(chutes[j]) == letra) {
+            achou = 1;
+            break;
+        }
+    }
+    return achou;
+}
+
+void desenha_forca(){
+    for ( int i = 0; i < strlen(palavra_secreta); i ++) { //strlen pega o tamanho da str
     
+        int achou = ja_chutou(palavra_secreta[i]);
+
+        if (achou) {
+            printf("%c ", palavra_secreta[i]);
+        } else {
+            printf("_ ");
+        }
+        if (tentativas == 0) {
+            continue;
+        }
+    }
+    printf("\n");
+}
+
+void escolhe_palavra(){
+    sprintf(palavra_secreta, "MELANCIA");
+}
+
+
+int main() {
     int acertou = 0;
     int enforcou = 0;
 
-    char chutes[26];
-    int tentativas = 0;
-
+    escolhe_palavra();
     abertura();
 
     while(!acertou && !enforcou){
-
-        for ( int i = 0; i < strlen(palavra_secreta); i ++) { //strlen pega o tamanho da str
-            
-            int achou = 0; // ótima saida, é bom ter isso em mente, criar variáveis para sair de situações difíceis
-
-            for(int j = 0; j < tentativas; j++) { // é declarado como j, pois já existe o i
-                if(toupper(chutes[j]) == palavra_secreta[i]) {
-                    achou = 1;
-                    break;
-                }
-            }
-
-            if (achou) {
-                printf("%c ", palavra_secreta[i]);
-            } else {
-                printf("_ ");
-            }
-            if (tentativas == 0) {
-                continue;
-            }
-        }
-        printf("\n");
-
-
-        chuta(&tentativas, chutes);
+        desenha_forca();
+        chuta();
     }
 }
