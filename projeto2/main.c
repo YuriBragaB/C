@@ -29,7 +29,7 @@
 // tem que utilizar com cuidado
 char palavra_secreta[20];
 char chutes[26];
-int tentativas = 0;
+int chutes_dados = 0;
 
 void abertura() { // void significa vazio
     printf("\n---------------------------------------\n"); // \n é necessário para n concatenar
@@ -45,14 +45,14 @@ void chuta() { // a variável declarada é nova
     printf("\nDigite uma letra:\n");
     scanf(" %c", &chute); // passa o endereço da variável chute, por isso utiliza a vaAariável 
 
-    chutes[(tentativas)] = chute;
-    (tentativas) ++;
+    chutes[(chutes_dados)] = toupper(chute);
+    (chutes_dados) ++;
 }
 
 int ja_chutou(char letra){
     int achou = 0; // ótima saida, é bom ter isso em mente, criar variáveis para sair de situações difíceis
 
-    for(int j = 0; j < tentativas; j++) { // é declarado como j, pois já existe o i
+    for(int j = 0; j < chutes_dados; j++) { // é declarado como j, pois já existe o i
         if(toupper(chutes[j]) == letra) {
             achou = 1;
             break;
@@ -71,7 +71,7 @@ void desenha_forca(){
         } else {
             printf("_ ");
         }
-        if (tentativas == 0) {
+        if (chutes_dados == 0) {
             continue;
         }
     }
@@ -82,15 +82,38 @@ void escolhe_palavra(){
     sprintf(palavra_secreta, "MELANCIA");
 }
 
+int enforcou() {
+    int erros = 0;
+
+    for (int i = 0; i < chutes_dados; i++){
+        int existe = 0;
+
+        for(int j = 0; j < strlen(palavra_secreta); j ++) {
+            if (chutes[i] == palavra_secreta[j]) {
+                existe = 1;
+                break;
+            }
+        }
+        if (!existe) erros ++;
+    }
+    return erros >= 5;
+}
+
+int acertou() {
+    for (int i = 0; i < strlen(palavra_secreta); i ++) {
+        if(!ja_chutou(palavra_secreta[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
 
 int main() {
-    int acertou = 0;
-    int enforcou = 0;
 
     escolhe_palavra();
     abertura();
 
-    while(!acertou && !enforcou){
+    while(!acertou() && !enforcou()){
         desenha_forca();
         chuta();
     }
