@@ -24,6 +24,7 @@
 #include <stdio.h> // pega algumas funções(printf, scanf, etc...)
 #include <string.h> // pega funções relacionadas as strings
 #include <ctype.h> // tem a função touuper()
+#include "main.h" // para colocar o seu header files, é necessário botar entre "" ao inves de <>
 
 // variáveis de escopo global
 // tem que utilizar com cuidado
@@ -116,5 +117,11 @@ int main() {
     while(!acertou() && !enforcou()){
         desenha_forca();
         chuta();
+        if (acertou()) {
+            printf("\nParabéns, você ganhou!\n\n");
+        } 
+        if (enforcou()) {
+            printf("\nVocê perdeu, a palavra secreta era: %s", palavra_secreta);
+        }
     }
 }
